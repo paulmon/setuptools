@@ -35,5 +35,18 @@ if "%ERRORLEVEL%"=="0" (
   echo Windows SDK 6.1 not found to build Windows 64-bit version
 )
 
+REM Windows 10 ARM build requires what to be installed?
+REM This change currently relies on Visual Studio Enterprise 2017
+set PATH=%PATH_OLD%
+set PATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build;%PATH%
+call vcvarsamd64_arm
+if "%ERRORLEVEL%"=="0" (
+  echo Building Windows RT Version ...
+  cl /D "GUI=0" /D "WIN32_LEAN_AND_MEAN" /D _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE launcher.c /O2 /link /MACHINE:ARM /SUBSYSTEM:CONSOLE /out:setuptools/cli-arm-32.exe
+  cl /D "GUI=1" /D "WIN32_LEAN_AND_MEAN" /D _ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE launcher.c /O2 /link /MACHINE:ARM /SUBSYSTEM:WINDOWS /out:setuptools/gui-arm-32.exe
+) else (
+  echo Visual Studio ^(Express^) 2012 not found to build Windows RT Version
+)
+
 set PATH=%PATH_OLD%
 

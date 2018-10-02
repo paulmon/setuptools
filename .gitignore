@@ -12,6 +12,7 @@ setuptools.egg-info
 .tox
 .venv
 *.egg
+*.obj
 *.py[cod]
 *.swp
 *~
